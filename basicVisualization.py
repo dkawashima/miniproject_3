@@ -100,7 +100,7 @@ plt.savefig('topTenBestRatings.jpg')
 plt.close()
 
 plt.boxplot(avg_ratings_best_5, vert=False)
-plt.title("Histogram of Average Rating of Top Ten Best Movies")
+plt.title("Boxplot of Average Rating of Top Ten Best Movies")
 plt.xlabel("Rating")
 plt.savefig('topTenBestRatings_5.jpg')
 plt.close()
