@@ -29,13 +29,13 @@ for i, line in enumerate(moviesLines):
 	movieList.append(tempList)
 
 # 4.1 All ratings in MovieLens DataSet
-
+'''
 plt.hist(dataList[:, 2], bins=np.arange(1, 7) -0.5)
 plt.title("MovieLens Ratings Histogram")
 plt.xlabel("Rating")
 plt.ylabel("Frequency")
 plt.savefig('allRatings.jpg')
-
+'''
 
 
 movie_to_ratings = {}
@@ -57,6 +57,7 @@ avg_ratings_most_pop = []
 for movie in sorted(movie_to_count.items(), key=lambda x: x[1], reverse=True)[:10]:
 	ten_most_pop.append(movie[0])
 
+print ('Top Ten Most Popular: ')
 for m in ten_most_pop:
 	print ('Movie Name: ', movieList[m - 1][1])
 	avg_ratings_most_pop.append(np.mean(movie_to_ratings[m]))
@@ -65,18 +66,30 @@ plt.boxplot(avg_ratings_most_pop, vert=False)
 plt.title("Boxplot of Average Ratings of Top Ten Most Popular Movies")
 plt.xlabel("Rating")
 plt.savefig('topTenPopRatings.jpg')
-
+plt.close()
 
 # 4.3 Visualize ratings of top ten best movies
 ten_best = []
+ten_best_5 = []
+# Add threshold to filter out movies with 5 or less ratings
 avg_ratings_best = []
+avg_ratings_best_5 = []
 # Find top ten movies with highest average rating
-for movie in sorted(movie_to_ratings.items(), key=lambda x: np.mean(x[1]), reverse=True)[:10]:
+for movie in sorted(movie_to_ratings.items(), key=lambda x: np.mean(x[1]), reverse=True):
 	ten_best.append(movie[0])
+	if (len(movie[1]) > 5):
+		ten_best_5.append(movie[0])
 
-for m in ten_best:
+print ('Top Ten Best, No Threshold: ')
+for m in ten_best[:10]:
 	print ('Movie Name: ', movieList[m - 1][1])
 	avg_ratings_best.append(np.mean(movie_to_ratings[m]))
+
+print ('Top Ten Best, 5 Reviews or More: ')
+for m in ten_best_5[:10]:
+	print ('Movie Name: ', movieList[m - 1][1])
+	avg_ratings_best_5.append(np.mean(movie_to_ratings[m]))
+
 
 
 plt.hist(avg_ratings_best, bins=np.arange(1, 7) -0.5)
@@ -84,7 +97,13 @@ plt.title("Histogram of Average Rating of Top Ten Best Movies")
 plt.xlabel("Rating")
 plt.ylabel("Frequency")
 plt.savefig('topTenBestRatings.jpg')
+plt.close()
 
+plt.boxplot(avg_ratings_best_5, vert=False)
+plt.title("Histogram of Average Rating of Top Ten Best Movies")
+plt.xlabel("Rating")
+plt.savefig('topTenBestRatings_5.jpg')
+plt.close()
 
 # 4.4 Visualize ratings of three genres: Comedy, Action, and Thriller
 actionRatings = []
@@ -116,13 +135,14 @@ plt.title("Histogram of Ratings of All Action Movies")
 plt.xlabel("Rating")
 plt.ylabel("Frequency")
 plt.savefig('actionRatings.jpg')
-
+plt.close()
 
 plt.hist(comedyRatings, bins=np.arange(1, 7) -0.5)
 plt.title("Histogram of Ratings of All Comedy Movies")
 plt.xlabel("Rating")
 plt.ylabel("Frequency")
 plt.savefig('comedyRatings.jpg')
+plt.close()
 
 plt.hist(thrillerRatings, bins=np.arange(1, 7) -0.5)
 plt.title("Histogram of Ratings of All Thriller Movies")
