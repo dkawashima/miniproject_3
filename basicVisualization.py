@@ -70,27 +70,37 @@ plt.close()
 
 # 4.3 Visualize ratings of top ten best movies
 ten_best = []
-ten_best_5 = []
-# Add threshold to filter out movies with 5 or less ratings
+ten_best_10 = []
+ten_best_100 = []
+
 avg_ratings_best = []
-avg_ratings_best_5 = []
+# Add threshold to filter out movies with 10 or less ratings
+avg_ratings_best_10 = []
+# Add threshold to filter out movies with 100 or less ratings
+avg_ratings_best_100 = []
 # Find top ten movies with highest average rating
 for movie in sorted(movie_to_ratings.items(), key=lambda x: np.mean(x[1]), reverse=True):
 	ten_best.append(movie[0])
-	if (len(movie[1]) > 5):
-		ten_best_5.append(movie[0])
+	if (len(movie[1]) > 10):
+		ten_best_10.append(movie[0])
+	if (len(movie[1]) > 100):
+		ten_best_100.append(movie[0])
+
 
 print ('Top Ten Best, No Threshold: ')
 for m in ten_best[:10]:
 	print ('Movie Name: ', movieList[m - 1][1])
 	avg_ratings_best.append(np.mean(movie_to_ratings[m]))
 
-print ('Top Ten Best, 5 Reviews or More: ')
-for m in ten_best_5[:10]:
-	print ('Movie Name: ', movieList[m - 1][1])
-	avg_ratings_best_5.append(np.mean(movie_to_ratings[m]))
+print ('Top Ten Best, 10 Reviews or More: ')
+for m in ten_best_10[:10]:
+	print ('Movie Name: ', movieList[m - 1][1], ", Count: ", movie_to_count[m])
+	avg_ratings_best_10.append(np.mean(movie_to_ratings[m]))
 
-
+print ('Top Ten Best, 100 Reviews or More: ')
+for m in ten_best_100[:10]:
+	print ('Movie Name: ', movieList[m - 1][1], ", Count: ", movie_to_count[m])
+	avg_ratings_best_100.append(np.mean(movie_to_ratings[m]))
 
 plt.hist(avg_ratings_best, bins=np.arange(1, 7) -0.5)
 plt.title("Histogram of Average Rating of Top Ten Best Movies")
@@ -99,11 +109,18 @@ plt.ylabel("Frequency")
 plt.savefig('topTenBestRatings.jpg')
 plt.close()
 
-plt.boxplot(avg_ratings_best_5, vert=False)
+plt.boxplot(avg_ratings_best_10, vert=False)
 plt.title("Boxplot of Average Rating of Top Ten Best Movies")
 plt.xlabel("Rating")
-plt.savefig('topTenBestRatings_5.jpg')
+plt.savefig('topTenBestRatings_10.jpg')
 plt.close()
+
+plt.boxplot(avg_ratings_best_100, vert=False)
+plt.title("Boxplot of Average Rating of Top Ten Best Movies")
+plt.xlabel("Rating")
+plt.savefig('topTenBestRatings_100.jpg')
+plt.close()
+
 
 # 4.4 Visualize ratings of three genres: Comedy, Action, and Thriller
 actionRatings = []
